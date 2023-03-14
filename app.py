@@ -29,6 +29,7 @@ fig2_1 = px.pie(names=conteo1.index, values=conteo1.values)
 fig2_1.update_layout(
   title='Rating de series y películas'
 )
+
 df_f2['rating'] = df_f2['rating'].replace({
     'TV-PG': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]',
     'PG': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]',
@@ -45,6 +46,7 @@ df_f2['rating'] = df_f2['rating'].replace({
     'NR':'Sin clasificar[NR,UR]',
     'UR':'Sin clasificar[NR,UR]'
     })
+
 conteo2 = df_f2['rating'].value_counts()
 fig2_2 = px.pie(names=conteo2.index, values=conteo2.values)
 fig2_2.update_layout(
