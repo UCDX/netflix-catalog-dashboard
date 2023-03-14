@@ -21,9 +21,37 @@ fig1.update_layout(
   )
 )
 
-# ---------------------------------- Gráfico 2. PENDIENTE ---------------------------------- #
+# ---------------------------------- Gráfico 2. Terminado ---------------------------------- #
 
-fig2 = fig1
+df_f2 = df
+conteo1 = df_f2['rating'].value_counts()
+fig2_1 = px.pie(names=conteo1.index, values=conteo1.values)
+fig2_1.update_layout(
+  title='Rating de series y películas'
+)
+
+df_f2['rating'] = df_f2['rating'].replace({
+    'TV-PG': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]',
+    'PG': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]',
+    'TV-G': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]',
+    'TV-Y7': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]',
+    'TV-Y': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]',
+    'G': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]',
+    'TV-Y7-FV': 'Niños[TV-PG,PG,TV-G,TV-Y7,TV-Y,G,TV-Y7-FV]', 
+    'TV-14': 'Adolescentes[TV-14,PG-13]',
+    'PG-13': 'Adolescentes[TV-14,PG-13]',
+    'TV-MA': 'Adultos[TV-MA,R,NC-17]',
+    'R': 'Adultos[TV-MA,R,NC-17]',
+    'NC-17': 'Adultos[TV-MA,R,NC-17]',
+    'NR':'Sin clasificar[NR,UR]',
+    'UR':'Sin clasificar[NR,UR]'
+    })
+
+conteo2 = df_f2['rating'].value_counts()
+fig2_2 = px.pie(names=conteo2.index, values=conteo2.values)
+fig2_2.update_layout(
+  title="Rating por público específico"
+  )
 
 # ---------------------------------- Gráfico 3. PENDIENTE ---------------------------------- #
 
@@ -45,31 +73,44 @@ app.layout = html.Div(children=[
     }
   ),
 
-  # Fila 1. Gráficas 1 y 2.
+  # Fila 1. Gráfica 1.
   dbc.Row([
     dbc.Col(
       dcc.Graph(
         id='fig1',
         figure=fig1,
         style={
-          'width': '90%',
+          'width': '100%',
           'margin': 'auto'
         }
       )
-    ),
-    dbc.Col( 
+    )
+  ]),
+  # Fila 2. Gráfica 2-1 y 2-2.
+  dbc.Row([
+    dbc.Col(
       dcc.Graph(
-        id='fig2',
-        figure=fig2,
+        id='fig2_1',
+        figure=fig2_1,
         style={
           'width': '90%',
           'margin': 'auto'
         }
       )
-    ) 
+    ),
+    dbc.Col(
+      dcc.Graph(
+        id='fig2_2',
+        figure=fig2_2,
+        style={
+          'width': '90%',
+          'margin': 'auto'
+        }
+      )
+    )
   ]),
 
-  # Fila 2. Gráficas 3 y 4.
+  # Fila 3. Gráficas 3 y 4.
   dbc.Row([
     dbc.Col(
       dcc.Graph(
