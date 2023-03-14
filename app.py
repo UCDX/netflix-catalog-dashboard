@@ -6,7 +6,7 @@ import dash_bootstrap_components as dbc
 # Archivo en Drive, con ultima modificación: 2023-03-11 10:23 AM.
 raw_data = pd.read_csv('netflix_movies_for_analitics.csv')
 
-# ---------------------------------- Gráfico 1. Terminado ---------------------------------- #
+# ---------------------------------- Gráfico 1. ---------------------------------- #
 
 df = raw_data.drop_duplicates(subset=['title'])
 df_counts = df.groupby(['added_year', 'type']).size().reset_index(name='counts')
@@ -21,7 +21,7 @@ fig1.update_layout(
   )
 )
 
-# ---------------------------------- Gráfico 2. Terminado ---------------------------------- #
+# ---------------------------------- Gráfico 2. ---------------------------------- #
 
 df_f2 = df
 conteo1 = df_f2['rating'].value_counts()
@@ -50,16 +50,38 @@ df_f2['rating'] = df_f2['rating'].replace({
 conteo2 = df_f2['rating'].value_counts()
 fig2_2 = px.pie(names=conteo2.index, values=conteo2.values)
 fig2_2.update_layout(
-  title="Rating por público específico"
-  )
+  title='Rating por público específico'
+)
 
-# ---------------------------------- Gráfico 3. PENDIENTE ---------------------------------- #
+# ---------------------------------- Gráfico 3. ---------------------------------- #
 
-fig3 = fig1
+df_f3 = df
+df_counts_fig3 = df.groupby(['country', 'type']).size().reset_index(name='counts')
+df_counts_fig3 = df_counts_fig3.groupby('type').apply(lambda x: x.nlargest(10, 'counts')).reset_index(drop=True)
+fig3 = px.bar(df_counts_fig3, x= 'country', y = 'counts', color = 'type', text_auto = True)
+fig3.update_layout(
+    title = 'Número de peliculas y series añanidas por país',
+    xaxis_title = 'País',
+    yaxis_title = 'Cantidad',
+    xaxis=dict(
+        tickmode='linear'
+    )
+)
 
-# ---------------------------------- Gráfico 4. PENDIENTE ---------------------------------- #
+# ---------------------------------- Gráfico 4. ---------------------------------- #
 
-fig4 = fig1
+df_f4 = df
+
+df_f4['type'] = df_f4['type'].replace({
+  'Movie': 'Movie (minutes)',
+  'TV Show': 'TV Show (Seasons)'
+})
+fig4 = px.histogram(df_f4, x='duration_value', color='type')
+fig4.update_layout(
+  title='Frecuencia de duración de una película o serie',
+  xaxis_title='Duración',
+  yaxis_title='Frecuencia'
+)
 
 # ---------------------------------- Dashboard ---------------------------------- #
 
