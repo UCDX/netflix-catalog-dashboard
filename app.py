@@ -98,14 +98,16 @@ app.layout = html.Div(children=[
         }
       )
     ),
+    dbc.Col(
       dcc.Graph(
         id='fig2_2',
         figure=fig2_2,
         style={
-          'width': '50%',
+          'width': '90%',
           'margin': 'auto'
         }
       )
+    )
   ]),
 
   # Fila 3. Gráficas 3 y 4.
